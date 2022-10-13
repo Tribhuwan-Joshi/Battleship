@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="h-full">
 
 <head>
     <meta charset="UTF-8">
@@ -9,13 +9,40 @@
     <link rel="icon">
 </head>
 
-<body class="bg-gray-200 h-full">
-    <div class="header bg-gray-100 flex justify-center shadow-sm gap-8 p-4 items-center">
+<body class="bg-gray-200 h-full flex flex-col">
+    <div class="header bg-gray-100 flex justify-center shadow-md gap-8 p-4 items-center">
         <img src="" alt="" class="warIcon w-14">
         <h1 class="text-5xl tracking-widest font-sans flex items-center">BATTLESHIP</h1>
         <img src="" alt="" class="warIcon w-14">
 
     </div>
+    <div class="main flex-1 flex justify-center gap-12 items-center p-4 bg-purple-300">
+        <div class="gameBoard w-[370px] h-[370px] bg-red-50 grid grid-cols-10 grid-rows-[repeat(10,minmax(0,1fr))]">
+
+
+        </div>
+      
+        <div class="shipBoard w-[370px] h-[370px]  grid grid-cols-10 grid-rows-[repeat(10,minmax(0,1fr))]">
+            <div class="carrier col-start-1 rounded-md col-span-5 row-start-3  bg-red-600"></div>       
+            <div class="Battleship col-start-1 rounded-md col-span-4 row-start-5 bg-green-600"></div>       
+            <div class="Destroyer col-start-4  rounded-md col-span-3 row-start-7  bg-emerald-500"></div>       
+            <div class="Patrol col-start-7 rounded-md col-span-2 row-start-3 bg-blue-700"></div>       
+            <div class="Patrol col-start-7 rounded-md col-span-2 row-start-5  bg-blue-700"></div>       
+        
+        </div>
+
+    </div>
+
+    <div class="footer flex bg-gray-200 p-2 justify-center gap-3">
+        <div class="created flex gap-2">
+            <img src="" alt="" class="pfp w-8 border border-black rounded-[100%]">
+            <span>Created by <a href="https://github.com/Tribhuwan-Joshi" class="underline hover:no-underline"
+                    target="_blank">Tjsm</a>&nbsp; || </span>
+        </div>
+        <div> <a href="https://en.wikipedia.org/wiki/Battleship_(game)#Description" target="_blank"
+                class="underline hover:no-underline">How to Play</a> ?</div>
+    </div>
+
 </body>
 
 </html>
