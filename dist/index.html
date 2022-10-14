@@ -16,19 +16,31 @@
         <img src="" alt="" class="warIcon w-14">
 
     </div>
-    <div class="main flex-1 flex justify-center gap-12 items-center p-4 bg-purple-300">
-        <div class="gameBoard w-[370px] h-[370px] bg-red-50 grid grid-cols-10 grid-rows-[repeat(10,minmax(0,1fr))]">
+    <div
+        class="main grid flex-1 gap-12 grid-cols-[repeat(10,minmax(70px,1fr))] grid-rows-6 justify-center bg-purple-300">
+        <div class="container col-start-5 row-start-1 col-span-3 flex items-center ">
+            <div class="heading text-3xl whitespace-nowrap tracking-wide font-mono ">Place your ships !</div>
+        </div>
+        <div class="btn-container col-start-5  col-span-2 flex justify-center">
+            <button
+                class="start-btn   font-mono h-[70%]  rounded-md border border-black px-1 active:bg-blue-800  text-xl tracking-wider bg-white text-black hover:bg-blue-600 hover:cursor-pointer  hover:text-white">
+                Start</button>
+        </div>
+
+        <div
+            class="gameBoard col-span-3 row-start-3 col-start-3 row-span-3 bg-red-50 grid grid-cols-10 grid-rows-[repeat(10,minmax(0,1fr))]">
 
 
         </div>
-      
-        <div class="shipBoard w-[370px] h-[370px]  grid grid-cols-10 grid-rows-[repeat(10,minmax(0,1fr))]">
-            <div class="carrier col-start-1 rounded-md col-span-5 row-start-3  bg-red-600"></div>       
-            <div class="Battleship col-start-1 rounded-md col-span-4 row-start-5 bg-green-600"></div>       
-            <div class="Destroyer col-start-4  rounded-md col-span-3 row-start-7  bg-emerald-500"></div>       
-            <div class="Patrol col-start-7 rounded-md col-span-2 row-start-3 bg-blue-700"></div>       
-            <div class="Patrol col-start-7 rounded-md col-span-2 row-start-5  bg-blue-700"></div>       
-        
+
+        <div
+            class="shipBoard col-start-6 items-center row-start-3 row-span-3 col-span-3  grid grid-cols-10 grid-rows-[repeat(10,minmax(0,1fr))]">
+            <div class="carrier  ships h-[90%]  col-start-1 rounded-md col-span-5 row-start-3  bg-red-500"></div>
+            <div class="Battleship ships h-[90%]  col-start-1 rounded-md col-span-4 row-start-5 bg-green-500"></div>
+            <div class="Destroyer ships h-[90%]  col-start-4  rounded-md col-span-3 row-start-7  bg-slate-500"></div>
+            <div class="Patrol ships h-[90%]  col-start-7 rounded-md col-span-2 row-start-3 bg-blue-700"></div>
+            <div class="Patrol  ships h-[90%] col-start-7 rounded-md col-span-2 row-start-5  bg-blue-700"></div>
+
         </div>
 
     </div>
