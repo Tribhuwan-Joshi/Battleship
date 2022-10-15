@@ -19,7 +19,7 @@ function init() {  // initialize overhead rendering
   let n = 100;
   while (n--) {
     const pixel = document.createElement("div");
-    pixel.classList.add("border", "border-black","pixel");
+    pixel.classList.add("border", "border-black","pixel","flex","items-center");
     gameBoard.appendChild(pixel);
   }
 }
