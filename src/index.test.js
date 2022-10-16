@@ -22,3 +22,7 @@ test("recieve Attack", () => {
   g1.receiveAttack(1, 2);
   expect(g1.getArr()[1][2]).toBe(1);
 })
+
+test("Place ships", () => {
+  
+})

@@ -1,6 +1,8 @@
 const dragDrop = () => {
   const ships = document.querySelectorAll(".ships");
   ships.forEach((s) => s.addEventListener("dragstart", dragStart));
+  ships.forEach((s) => s.addEventListener("dragend", dragEnd));
+
   const pixels = document.querySelectorAll(".gameBoard .pixel");
   pixels.forEach((p) => {
     p.addEventListener("dragenter", dragEnter);
@@ -9,6 +11,9 @@ const dragDrop = () => {
     p.addEventListener("drop", drop);
   });
 
+  function dragEnd(e) {
+    e.target.classList.remove("hidden");
+  }
   function dragOver(e) {
     e.preventDefault();
     e.target.classList.add("drag-over");
@@ -21,12 +26,16 @@ const dragDrop = () => {
     e.target.classList.remove("drag-over");
   }
 
-  function drop(e) {
+    function drop(e) {
+      
     const id = e.dataTransfer.getData("text/plain");
-    const draggable = document.getElementById(id);
-    e.target.appendChild(draggable);
-    draggable.classList.remove("hidden");
-    e.target.classList.remove("drag-over");
+      const draggable = document.getElementById(id);
+     
+    if (e.target.classList.contains("pixel")) {
+      e.target.appendChild(draggable);
+      draggable.classList.remove("hidden");
+      e.target.classList.remove("drag-over");
+    }
   }
   function dragStart(e) {
     e.dataTransfer.setData("text/plain", e.target.id);
