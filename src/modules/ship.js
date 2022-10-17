@@ -9,4 +9,5 @@ const Ship = (s) => {
   return { length, hit, isSunk, get hits(){return hitCount} };
 };
 
+// module.exports = Ship
 export default Ship;
