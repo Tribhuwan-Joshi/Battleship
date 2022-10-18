@@ -18,7 +18,7 @@ const GameBoard = () => {
     return true;
   }
     function isClearPos(size, row, col) {
-      console.log(getArr())
+      
     for (let i = 0; i < size; i++) {
       if (getArr()[row][col + i]) {
         return false;
@@ -41,9 +41,7 @@ const GameBoard = () => {
   return { placeShip, receiveAttack, isValidpos, isClearPos, getArr };
 };
 
-let g1 = GameBoard();
-g1.placeShip(2, 2, 9);
-console.log(g1.getArr())
+
 
 // module.exports = GameBoard;
 export default GameBoard;

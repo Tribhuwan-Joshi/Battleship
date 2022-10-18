@@ -1,3 +1,6 @@
+import intialBoard from "../index.js";
+import { getRow, getCol } from "./helper.js";
+
 const dragDrop = () => {
   const ships = document.querySelectorAll(".ships");
   ships.forEach((s) => s.addEventListener("dragstart", dragStart));
@@ -26,16 +29,38 @@ const dragDrop = () => {
     e.target.classList.remove("drag-over");
   }
 
-    function drop(e) {
-      
+  function drop(e) {
     const id = e.dataTransfer.getData("text/plain");
-      const draggable = document.getElementById(id);
-     
+    const draggable = document.getElementById(id);
     if (e.target.classList.contains("pixel")) {
-      e.target.appendChild(draggable);
-      draggable.classList.remove("hidden");
+      const size = draggable.getAttribute("data-size");
+      const dataID = e.target.getAttribute("data-id");
+
+      const col = getCol(dataID);
+        const row = getRow(dataID);
+        // console.log(intialBoard.isValidpos(size, col));
+      if (
+        intialBoard.isClearPos(size, row, col) &&
+        intialBoard.isValidpos(size, col)
+      ) {
+          e.target.append(draggable);
+          draggable.classList.remove("hidden");
+          for (let i = 1; i < size; i++) {
+            let ele =document.querySelector(`[data-id='${+(+dataID + i)}']`)
+           console.log(document.querySelector(`[data-id='${+(+dataID + i)}']`));
+            ele.append(draggable.cloneNode(
+                true
+            ));
+              ele.classList.remove("drag-over");
+              draggable.classList.remove("hidden");
+            
+        }
+
+        
+        }
+        
+      }
       e.target.classList.remove("drag-over");
-    }
   }
   function dragStart(e) {
     e.dataTransfer.setData("text/plain", e.target.id);

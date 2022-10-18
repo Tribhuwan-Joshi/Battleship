@@ -21,13 +21,15 @@
         <div class="container col-start-5 row-start-1 col-span-3 flex items-center ">
             <div class="heading text-3xl whitespace-nowrap tracking-wide font-mono ">Deploy your ships !</div>
         </div>
+      
         <div class="btn-container col-start-5  col-span-2 flex justify-center items-center gap-4">
-            <button
+            <button 
                 class="start-btn   font-mono h-[70%]  rounded-md border border-black px-1 active:bg-blue-800  text-xl tracking-wider bg-white text-black hover:bg-blue-600 hover:cursor-pointer  hover:text-white">
                 Start</button>
                 <button
                     class="reset-btn   font-mono h-[70%]  rounded-md border border-black px-1 active:bg-red-700  text-xl tracking-wider bg-white text-black hover:bg-red-500 hover:cursor-pointer  hover:text-white">
                     Reset</button>
+                    <div class="error-start text-red-700 underline  whitespace-nowrap p-1 bg-white hidden">Deploy all the ships.</div>
         </div>
 
         <div
@@ -38,11 +40,12 @@
 
         <div
             class="shipBoard col-start-6 items-center row-start-3 row-span-3 col-span-3  grid grid-cols-10 grid-rows-[repeat(10,minmax(0,1fr))]">
-            <div draggable="true" id="carrier" class="carrier hover:shadow-sm cursor-pointer ships w-[97%]  h-[80%]  col-start-1 rounded-sm col-span-5 row-start-3  bg-red-500"></div>
-            <div draggable="true" id="battleship" class="Battleship hover:shadow-sm cursor-pointer ships w-[97%] h-[80%]  col-start-1 rounded-sm col-span-4 row-start-5 bg-green-600"></div>
-            <div draggable="true"id="destroyer" class="Destroyer hover:shadow-sm cursor-pointer ships w-[97%] h-[80%]  col-start-4  rounded-sm col-span-3 row-start-7  bg-slate-500"></div>
-            <div draggable="true" id="patrol1" class="Patrol ships hover:shadow-sm cursor-pointer w-[97%] h-[80%]  col-start-7 rounded-sm col-span-2 row-start-3 bg-blue-700"></div>
-            <div draggable="true" id="patrol2" class="Patrol hover:shadow-sm cursor-pointer  ships w-[97%] h-[80%] col-start-7 rounded-sm col-span-2 row-start-5  bg-blue-700"></div>
+            <div draggable="true" id="carrier" class="carrier hover:shadow-sm cursor-pointer ships w-[99%]  h-[80%]  col-start-1 rounded-sm col-span-5 row-start-3  bg-green-700" data-size="5"></div>
+            <div draggable="true" id="battleship" class="Battleship hover:shadow-sm cursor-pointer ships w-[99%] h-[80%]  col-start-1 rounded-sm col-span-4 row-start-5 bg-yellow-600" data-size="4"></div>
+            <div draggable="true"id="destroyer" class="Destroyer hover:shadow-sm cursor-pointer ships w-[99%] h-[80%]  col-start-4  rounded-sm col-span-3 row-start-7  bg-slate-500" data-size="3"></div>
+            <div draggable="true" id="patrol1" class="Patrol ships hover:shadow-sm cursor-pointer w-[99%] h-[80%]  col-start-7 rounded-sm col-span-2 row-start-3 bg-blue-700" data-size="2"></div>
+            <div draggable="true" id="patrol2" class="Patrol hover:shadow-sm cursor-pointer  ships w-[99%] h-[80%] col-start-7 rounded-sm col-span-2 row-start-5  bg-blue-700" data-size="2"></div>
+            <div class="instruction  tracking-wider text-sm whitespace-nowrap">* You can only move the head of the ship</div>
 
         </div>
 
@@ -51,7 +54,7 @@
     <div class="footer flex bg-gray-200 p-2 justify-center gap-3">
         <div class="created flex gap-2">
             <img src="" alt="" class="pfp w-8 border border-black rounded-[100%]">
-            <span>Created by <a href="https://github.com/Tribhuwan-Joshi" class="underline hover:no-underline"
+            <span>Crafted by <a href="https://github.com/Tribhuwan-Joshi" class="underline hover:no-underline"
                     target="_blank">Tjsm</a>&nbsp; || </span>
         </div>
         <div> <a href="https://en.wikipedia.org/wiki/Battleship_(game)#Description" target="_blank"

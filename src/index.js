@@ -1,5 +1,6 @@
 import "./style.css";
 import dragDrop from "./modules/dragdrop"
+import GameBoard from "./modules/gameBoard";
 
 import iconImg from "./assets/iconShip.png";
 import warIcon from "./assets/war.png";
@@ -16,13 +17,20 @@ function init() {  // initialize overhead rendering
   war.forEach((e) => (e.src = warIcon));
   // game board
   const gameBoard = document.querySelector(".gameBoard");
-  let n = 100;
-  while (n--) {
+  let n = 0;
+  while (n!=100) {
     const pixel = document.createElement("div");
     pixel.classList.add("border", "border-black","pixel","flex","items-center");
     gameBoard.appendChild(pixel);
+    pixel.setAttribute("data-id", n);
+    n++;
   }
 }
 
 init();
+let intialBoard = GameBoard();
 dragDrop();
+
+
+
+export default intialBoard;
