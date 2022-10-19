@@ -47,10 +47,9 @@ const dragDrop = () => {
           draggable.classList.remove("hidden");
           for (let i = 1; i < size; i++) {
             let ele =document.querySelector(`[data-id='${+(+dataID + i)}']`)
-           console.log(document.querySelector(`[data-id='${+(+dataID + i)}']`));
-            ele.append(draggable.cloneNode(
-                true
-            ));
+              const node = draggable.cloneNode(true);
+              node.setAttribute("draggable", "false");
+            ele.append(node);
               ele.classList.remove("drag-over");
               draggable.classList.remove("hidden");
             
@@ -63,7 +62,23 @@ const dragDrop = () => {
       e.target.classList.remove("drag-over");
   }
   function dragStart(e) {
-    e.dataTransfer.setData("text/plain", e.target.id);
+      e.dataTransfer.setData("text/plain", e.target.id);
+      const size = e.target.getAttribute("data-size");
+    //   console.log(e.target.parentElement);
+      if (e.target.parentElement.classList.contains("pixel")) {
+          const pos = e.target.parentElement.getAttribute("data-id");
+          const row = getRow(pos);
+          const col = getCol(pos);
+          console.log(row, col);
+          let arr = intialBoard.getArr();
+          for (let i = 1; i < size; i++){
+              arr[row][col + i] = 0;
+              document.querySelector(
+                `[data-id='${+(+pos + i)}']`
+              ).textContent = "";
+          }
+      }
+      
     setTimeout(() => e.target.classList.add("hidden"), 0);
   }
 };
