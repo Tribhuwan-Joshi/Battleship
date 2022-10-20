@@ -57,6 +57,9 @@ const dragDrop = () => {
 
         
         }
+      else {
+          console.log("wrong drop")
+        }
         
       }
       e.target.classList.remove("drag-over");
@@ -69,7 +72,7 @@ const dragDrop = () => {
           const pos = e.target.parentElement.getAttribute("data-id");
           const row = getRow(pos);
           const col = getCol(pos);
-          console.log(row, col);
+       
           let arr = intialBoard.getArr();
           for (let i = 1; i < size; i++){
               arr[row][col + i] = 0;
