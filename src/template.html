@@ -22,13 +22,13 @@
             <div class="heading text-3xl whitespace-nowrap tracking-wide font-mono ">Deploy your ships !</div>
         </div>
       
-        <div class="btn-container col-start-5  col-span-2 flex justify-center items-center gap-4">
+        <div class="btn-container col-start-5 flex-row  col-span-2 flex justify-center items-center gap-4">
             <button 
-                class="start-btn   font-mono h-[70%]  rounded-md border border-black px-1 active:bg-blue-800  text-xl tracking-wider bg-white text-black hover:bg-blue-600 hover:cursor-pointer  hover:text-white">
+                class="start-btn p-2  font-mono h-[70%]  rounded-md border border-black px-1 active:bg-blue-800  text-xl tracking-wider bg-white text-black hover:bg-blue-600 hover:cursor-pointer  hover:text-white">
                 Start</button>
-                <button
+                <!-- <button
                     class="reset-btn   font-mono h-[70%]  rounded-md border border-black px-1 active:bg-red-700  text-xl tracking-wider bg-white text-black hover:bg-red-500 hover:cursor-pointer  hover:text-white">
-                    Reset</button>
+                    Reset</button> -->
                     <div class="error-start text-red-700 underline  whitespace-nowrap p-1 bg-white hidden">Deploy all the ships.</div>
         </div>
 
@@ -45,7 +45,8 @@
             <div draggable="true"id="destroyer" class="Destroyer hover:shadow-sm cursor-pointer ships w-[99%] h-[80%]  col-start-4  rounded-sm col-span-3 row-start-7  bg-slate-500" data-size="3"></div>
             <div draggable="true" id="patrol1" class="Patrol ships hover:shadow-sm cursor-pointer w-[99%] h-[80%]  col-start-7 rounded-sm col-span-2 row-start-3 bg-blue-700" data-size="2"></div>
             <div draggable="true" id="patrol2" class="Patrol hover:shadow-sm cursor-pointer  ships w-[99%] h-[80%] col-start-7 rounded-sm col-span-2 row-start-5  bg-blue-700" data-size="2"></div>
-            <div class="instruction  tracking-wider text-sm whitespace-nowrap">* You can only move the head of the ship</div>
+            <div class="instruction  tracking-wider text-sm whitespace-nowrap font-mono"> You can only move the head of the ship</div>
+            <div class="instruction font-mono row-start-[10] col-start-1 col-span-10 text-sm whitespace-nowrap"> Invalid drag will restore the ship position</div>
 
         </div>
 

@@ -1,88 +1,130 @@
 import intialBoard from "../index.js";
-import { getRow, getCol } from "./helper.js";
+import { getRow, getCol } from "./helper";
+import Ship from "./ship.js";
 
 const dragDrop = () => {
+  const pixels = document.querySelectorAll(".pixel");
   const ships = document.querySelectorAll(".ships");
-  ships.forEach((s) => s.addEventListener("dragstart", dragStart));
-  ships.forEach((s) => s.addEventListener("dragend", dragEnd));
-
-  const pixels = document.querySelectorAll(".gameBoard .pixel");
-  pixels.forEach((p) => {
-    p.addEventListener("dragenter", dragEnter);
-    p.addEventListener("dragover", dragOver);
-    p.addEventListener("dragleave", dragLeave);
-    p.addEventListener("drop", drop);
+  let prevpos = null;
+  let prevPix = false;
+  let prevsize = null;
+  let prevId = null;
+  let dropped = false;
+  ships.forEach((ship) => {
+    ship.addEventListener("dragstart", dragStart);
+    ship.addEventListener("dragend", dragEnd);
+  });
+  pixels.forEach((pixel) => {
+    pixel.addEventListener("dragenter", dragEnter);
+    pixel.addEventListener("dragover", dragOver);
+    pixel.addEventListener("dragleave", dragLeave);
+    pixel.addEventListener("drop", drop);
   });
 
+  function dragStart(e) {
+    if (e.target.parentElement.classList.contains("pixel")) {
+      dropped = false;
+      prevPix = true;
+      prevpos = +e.target.parentElement.getAttribute("data-id");
+      const row = +getRow(prevpos);
+      const col = +getCol(prevpos);
+      prevsize = e.target.getAttribute("data-size");
+      prevId = e.target.getAttribute("id");
+      removeShip(prevpos, prevsize);
+      removeShipArr(row, col, prevsize);
+      
+    } else {
+      
+    }
+    e.dataTransfer.setData("text/plain", e.target.id);
+    setTimeout(() => e.target.classList.add("hidden"), 0);
+  }
+  function removeShip(pos, size) {
+    for (let i = 1; i < size; i++) {
+      document.querySelector(`[data-id='${pos + i}']`).textContent = "";
+    }
+  }
+  function removeShipArr(row, col, size) {
+    for (let i = 0; i < size; i++) {
+      intialBoard.setArr(row, col + i, 0);
+    }
+  }
+
   function dragEnd(e) {
+    if (!dropped && prevPix) {
+      
+      const shipElement = document.getElementById(prevId);
+const ship = Ship(prevsize);
+const row = getRow(prevpos);
+const col = getCol(prevpos);
+for (let i = 0; i < prevsize; i++) {
+  intialBoard.setArr(row, col + i, ship);
+}
+      appendShip(prevpos, prevsize, shipElement);
+      
+      dropped = true;
+
+    }
     e.target.classList.remove("hidden");
+  }
+
+  function dragEnter(e) {
+    e.preventDefault();
+    e.target.classList.add("drag-over");
   }
   function dragOver(e) {
     e.preventDefault();
     e.target.classList.add("drag-over");
   }
-  function dragEnter(e) {
-    e.preventDefault();
-    e.target.classList.add("drag-over");
-  }
   function dragLeave(e) {
+    e.preventDefault();
     e.target.classList.remove("drag-over");
   }
-
   function drop(e) {
     const id = e.dataTransfer.getData("text/plain");
-    const draggable = document.getElementById(id);
+    const shipElement = document.getElementById(id);
     if (e.target.classList.contains("pixel")) {
-      const size = draggable.getAttribute("data-size");
-      const dataID = e.target.getAttribute("data-id");
-
-      const col = getCol(dataID);
-        const row = getRow(dataID);
-        // console.log(intialBoard.isValidpos(size, col));
-      if (
-        intialBoard.isClearPos(size, row, col) &&
-        intialBoard.isValidpos(size, col)
-      ) {
-          e.target.append(draggable);
-          draggable.classList.remove("hidden");
-          for (let i = 1; i < size; i++) {
-            let ele =document.querySelector(`[data-id='${+(+dataID + i)}']`)
-              const node = draggable.cloneNode(true);
-              node.setAttribute("draggable", "false");
-            ele.append(node);
-              ele.classList.remove("drag-over");
-              draggable.classList.remove("hidden");
-            
-        }
-
-        
-        }
-      else {
-          console.log("wrong drop")
-        }
-        
-      }
+      e.preventDefault();
       e.target.classList.remove("drag-over");
-  }
-  function dragStart(e) {
-      e.dataTransfer.setData("text/plain", e.target.id);
-      const size = e.target.getAttribute("data-size");
-    //   console.log(e.target.parentElement);
-      if (e.target.parentElement.classList.contains("pixel")) {
-          const pos = e.target.parentElement.getAttribute("data-id");
-          const row = getRow(pos);
-          const col = getCol(pos);
-       
-          let arr = intialBoard.getArr();
-          for (let i = 1; i < size; i++){
-              arr[row][col + i] = 0;
-              document.querySelector(
-                `[data-id='${+(+pos + i)}']`
-              ).textContent = "";
-          }
+      const pos = +e.target.getAttribute("data-id");
+      const row = getRow(pos);
+      const col = getCol(pos);
+      // get ship size
+
+      const shipSize = document.getElementById(id).getAttribute("data-size");
+
+      if (intialBoard.canDeploy(shipSize, row, col)) {
+        const ship = Ship(shipSize);
+
+        for (let i = 0; i < shipSize; i++) {
+          intialBoard.setArr(row, col + i, ship);
+        }
+        dropped = true;
+        
+        appendShip(pos, shipSize, shipElement);
+        
+      } else {
+        
+        shipElement.classList.remove("hidden");
+        e.target.classList.remove("drag-over");
       }
+    } else {
       
-    setTimeout(() => e.target.classList.add("hidden"), 0);
+      shipElement.classList.remove("hidden");
+      e.target.classList.remove("drag-over");
+    }
+  }
+
+  function appendShip(pos, shipSize, shipElement) {
+    document.querySelector(`[data-id='${pos}']`).append(shipElement);
+    shipElement.classList.remove("hidden");
+    for (let i = 1; i < shipSize; i++) {
+      const shipClone = shipElement.cloneNode(true);
+      document.querySelector(`[data-id='${pos + i}']`).append(shipClone);
+      shipClone.classList.remove("hidden");
+      shipClone.setAttribute("draggable", false);
+    }
+    console.log(intialBoard.getArr())
   }
 };
 

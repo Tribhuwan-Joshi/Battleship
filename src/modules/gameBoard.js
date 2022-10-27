@@ -3,21 +3,18 @@ import Ship from "./ship";
 
 const GameBoard = () => {
   let arr = new Array(10).fill().map(() => new Array(10).fill(0));
-  function placeShip(size, row, col) {
-    if (isValidpos(size, col) && isClearPos(size, row, col)) {
-      for (let i = 0; i < size; i++) {
-        const ship = Ship(size);
-        arr[row][col + i] = ship;
-      }
+  function canDeploy(size, row, col) {
+   return isValidpos(size, col) && isClearPath(size, row, col)
+   
     }
-  }
+  
   function isValidpos(size, col) {
     for (let i = 0; i < size; i++) {
       if (col + i > 9) return false;
     }
     return true;
   }
-    function isClearPos(size, row, col) {
+    function isClearPath(size, row, col) {
       
     for (let i = 0; i < size; i++) {
       if (getArr()[row][col + i]) {
@@ -26,6 +23,10 @@ const GameBoard = () => {
     }
     return true;
   }
+  function setArr(row, col, node) {
+    arr[row][col] = node;
+  }
+
   function getArr() {
     return arr;
   }
@@ -38,7 +39,7 @@ const GameBoard = () => {
       arr[x][y] = -1;
     }
   }
-  return { placeShip, receiveAttack, isValidpos, isClearPos, getArr };
+  return { canDeploy, receiveAttack, getArr,setArr };
 };
 
 
