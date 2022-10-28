@@ -1,11 +1,12 @@
 import intialBoard from "../index.js";
 import { getRow, getCol } from "./helper";
 import Ship from "./ship.js";
-
+let shipCount = 0;
 const dragDrop = () => {
   const pixels = document.querySelectorAll(".pixel");
   const ships = document.querySelectorAll(".ships");
   let prevpos = null;
+
   let prevPix = false;
   let prevsize = null;
   let prevId = null;
@@ -25,6 +26,7 @@ const dragDrop = () => {
     if (e.target.parentElement.classList.contains("pixel")) {
       dropped = false;
       prevPix = true;
+
       prevpos = +e.target.parentElement.getAttribute("data-id");
       const row = +getRow(prevpos);
       const col = +getCol(prevpos);
@@ -33,9 +35,9 @@ const dragDrop = () => {
       removeShip(prevpos, prevsize);
       removeShipArr(row, col, prevsize);
       
-    } else {
+    } 
       
-    }
+    
     e.dataTransfer.setData("text/plain", e.target.id);
     setTimeout(() => e.target.classList.add("hidden"), 0);
   }
@@ -61,6 +63,7 @@ for (let i = 0; i < prevsize; i++) {
   intialBoard.setArr(row, col + i, ship);
 }
       appendShip(prevpos, prevsize, shipElement);
+      shipCount++;
       
       dropped = true;
 
@@ -102,6 +105,7 @@ for (let i = 0; i < prevsize; i++) {
         dropped = true;
         
         appendShip(pos, shipSize, shipElement);
+        shipCount++;
         
       } else {
         
@@ -126,6 +130,10 @@ for (let i = 0; i < prevsize; i++) {
     }
     console.log(intialBoard.getArr())
   }
+ 
 };
+ function allDeploy() {
+   return shipCount == 5;
+ }
 
-export default dragDrop;
+export { allDeploy , dragDrop};

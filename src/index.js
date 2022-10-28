@@ -1,7 +1,7 @@
 import "./style.css";
-import dragDrop from "./modules/dragdrop"
+import { dragDrop } from "./modules/dragdrop"
 import GameBoard from "./modules/gameBoard";
-
+import Game from "./modules/game";
 import iconImg from "./assets/iconShip.png";
 import warIcon from "./assets/war.png";
 import miyamoto from "./assets/miyamoto.jpg";
@@ -29,7 +29,9 @@ function init() {  // initialize overhead rendering
 
 init();
 let intialBoard = GameBoard();
+Game();
 dragDrop();
+
 
 
 
