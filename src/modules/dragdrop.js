@@ -1,8 +1,10 @@
-import intialBoard from "../index.js";
-import { getRow, getCol } from "./helper";
+import { intialBoard } from "../index.js";
+import { getRow, getCol,setDraggable } from "./helper";
 import Ship from "./ship.js";
+import Game from "./game.js";
 let shipCount = 0;
 const dragDrop = () => {
+  const game = Game();
   const pixels = document.querySelectorAll(".pixel");
   const ships = document.querySelectorAll(".ships");
   let prevpos = null;
@@ -23,23 +25,27 @@ const dragDrop = () => {
   });
 
   function dragStart(e) {
-    if (e.target.parentElement.classList.contains("pixel")) {
-      dropped = false;
-      prevPix = true;
-
-      prevpos = +e.target.parentElement.getAttribute("data-id");
-      const row = +getRow(prevpos);
-      const col = +getCol(prevpos);
-      prevsize = e.target.getAttribute("data-size");
-      prevId = e.target.getAttribute("id");
-      removeShip(prevpos, prevsize);
-      removeShipArr(row, col, prevsize);
+    if (!(game.gameStart())) {
       
-    } 
+      if (e.target.parentElement.classList.contains("pixel")) {
+        dropped = false;
+        prevPix = true;
+
+        prevpos = +e.target.parentElement.getAttribute("data-id");
+        const row = +getRow(prevpos);
+        const col = +getCol(prevpos);
+        prevsize = e.target.getAttribute("data-size");
+        prevId = e.target.getAttribute("id");
+        removeShip(prevpos, prevsize);
+        removeShipArr(row, col, prevsize);
+      
+      }
       
     
-    e.dataTransfer.setData("text/plain", e.target.id);
-    setTimeout(() => e.target.classList.add("hidden"), 0);
+      e.dataTransfer.setData("text/plain", e.target.id);
+      setTimeout(() => e.target.classList.add("hidden"), 0);
+    
+    }
   }
   function removeShip(pos, size) {
     for (let i = 1; i < size; i++) {
@@ -85,38 +91,42 @@ for (let i = 0; i < prevsize; i++) {
   }
   function drop(e) {
     const id = e.dataTransfer.getData("text/plain");
+  
     const shipElement = document.getElementById(id);
-    if (e.target.classList.contains("pixel")) {
-      e.preventDefault();
-      e.target.classList.remove("drag-over");
-      const pos = +e.target.getAttribute("data-id");
-      const row = getRow(pos);
-      const col = getCol(pos);
-      // get ship size
-
-      const shipSize = document.getElementById(id).getAttribute("data-size");
-
-      if (intialBoard.canDeploy(shipSize, row, col)) {
-        const ship = Ship(shipSize);
-
-        for (let i = 0; i < shipSize; i++) {
-          intialBoard.setArr(row, col + i, ship);
-        }
-        dropped = true;
-        
-        appendShip(pos, shipSize, shipElement);
-        shipCount++;
-        
-      } else {
-        
-        shipElement.classList.remove("hidden");
+    if (shipElement) {
+      if (e.target.classList.contains("pixel")) {
+        e.preventDefault();
         e.target.classList.remove("drag-over");
-      }
-    } else {
+        const pos = +e.target.getAttribute("data-id");
+        const row = getRow(pos);
+        const col = getCol(pos);
+        // get ship size
+
+        const shipSize = document.getElementById(id).getAttribute("data-size");
+
+        if (intialBoard.canDeploy(shipSize, row, col)) {
+          const ship = Ship(shipSize);
+
+          for (let i = 0; i < shipSize; i++) {
+            intialBoard.setArr(row, col + i, ship);
+          }
+          dropped = true;
+        
+          appendShip(pos, shipSize, shipElement);
+          shipCount++;
+        
+        } else {
+        
+          shipElement.classList.remove("hidden");
+          e.target.classList.remove("drag-over");
+        }
+      } else {
       
-      shipElement.classList.remove("hidden");
-      e.target.classList.remove("drag-over");
+        shipElement.classList.remove("hidden");
+        
+      }
     }
+    e.target.classList.remove("drag-over");  // remove the drag-over shadow
   }
 
   function appendShip(pos, shipSize, shipElement) {
@@ -126,7 +136,8 @@ for (let i = 0; i < prevsize; i++) {
       const shipClone = shipElement.cloneNode(true);
       document.querySelector(`[data-id='${pos + i}']`).append(shipClone);
       shipClone.classList.remove("hidden");
-      shipClone.setAttribute("draggable", false);
+      setDraggable(shipClone, false);
+      // shipClone.setAttribute("draggable", false);
     }
     console.log(intialBoard.getArr())
   }

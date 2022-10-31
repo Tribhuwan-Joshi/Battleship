@@ -6,7 +6,6 @@ import iconImg from "./assets/iconShip.png";
 import warIcon from "./assets/war.png";
 import miyamoto from "./assets/miyamoto.jpg";
 
-
 function init() {  // initialize overhead rendering
 
   const icon = document.querySelector("link[rel=icon]");
@@ -29,10 +28,10 @@ function init() {  // initialize overhead rendering
 
 init();
 let intialBoard = GameBoard();
-Game();
+let enemyBoard = GameBoard();
 dragDrop();
 
 
 
 
-export default intialBoard;
+export {intialBoard,enemyBoard};

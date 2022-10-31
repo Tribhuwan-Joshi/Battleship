@@ -9,27 +9,28 @@
     <link rel="icon">
 </head>
 
-<body class="bg-gray-200 h-full flex flex-col">
-    <div class="header bg-gray-100 flex justify-center shadow-md gap-8 p-4 items-center">
+<body class="bg-gray-200 h-full flex  justify-center  flex-col">
+    <div class="header bg-gray-100 w-full flex justify-center shadow-md gap-8 p-4 items-center">
         <img src="" alt="" class="warIcon w-14">
         <h1 class="text-5xl tracking-widest font-sans flex items-center">BATTLESHIP</h1>
         <img src="" alt="" class="warIcon w-14">
 
     </div>
     <div
-        class="main grid flex-1 gap-12 grid-cols-[repeat(10,minmax(70px,1fr))] grid-rows-6 justify-center bg-gradient-to-bl from-red-300 to-purple-300">
+        class="main  grid flex-1 gap-12 grid-cols-[repeat(10,minmax(70px,1fr))] grid-rows-6 justify-center bg-gradient-to-br  from-purple-300 to-red-300">
         <div class="container col-start-5 row-start-1 col-span-3 flex items-center ">
-            <div class="heading text-3xl whitespace-nowrap tracking-wide font-mono ">Deploy your ships !</div>
+            <div class="heading text-3xl whitespace-nowrap tracking-wide font-sans -ml-6 ">Deploy your ships !</div>
         </div>
-      
+
         <div class="btn-container col-start-5 flex-row  col-span-2 flex justify-center items-center gap-4">
-            <button 
+            <button
                 class="start-btn p-2  font-mono h-[70%]  rounded-md border border-black px-1 active:bg-gray-800  text-xl tracking-wider bg-white text-black hover:bg-gray-600 hover:cursor-pointer  hover:text-white">
                 Start</button>
-                <!-- <button
+            <!-- <button
                     class="reset-btn   font-mono h-[70%]  rounded-md border border-black px-1 active:bg-red-700  text-xl tracking-wider bg-white text-black hover:bg-red-500 hover:cursor-pointer  hover:text-white">
                     Reset</button> -->
-                    <div class="error-start text-red-700 underline  whitespace-nowrap p-1 bg-white invisible">Deploy all the ships.</div>
+            <div class="error-start text-red-700 underline  whitespace-nowrap p-1 bg-white invisible">Deploy all the
+                ships.</div>
         </div>
 
         <div
@@ -37,22 +38,41 @@
 
 
         </div>
+        <div class="player-area area col-start-4 row-start-6 font-semibold whitespace-nowrap tracking-wide -mt-6 hidden">Your Fleet</div>
+        <div class="enemy-area area col-start-7 row-start-6 font-semibold whitespace-nowrap tracking-wide -mt-6 hidden">Enemy Fleet</div>
+
 
         <div
             class="shipBoard col-start-6 items-center row-start-3 row-span-3 col-span-3  grid grid-cols-10 grid-rows-[repeat(10,minmax(0,1fr))]">
-            <div draggable="true" id="carrier" class="carrier hover:shadow-sm cursor-pointer ships w-[99%]  h-[80%]  col-start-1 rounded-sm col-span-5 row-start-3  bg-green-700" data-size="5"></div>
-            <div draggable="true" id="battleship" class="Battleship hover:shadow-sm cursor-pointer ships w-[99%] h-[80%]  col-start-1 rounded-sm col-span-4 row-start-5 bg-yellow-600" data-size="4"></div>
-            <div draggable="true"id="destroyer" class="Destroyer hover:shadow-sm cursor-pointer ships w-[99%] h-[80%]  col-start-4  rounded-sm col-span-3 row-start-7  bg-slate-600" data-size="3"></div>
-            <div draggable="true" id="patrol1" class="Patrol ships hover:shadow-sm cursor-pointer w-[99%] h-[80%]  col-start-7 rounded-sm col-span-2 row-start-3 bg-blue-700" data-size="2"></div>
-            <div draggable="true" id="patrol2" class="Patrol hover:shadow-sm cursor-pointer  ships w-[99%] h-[80%] col-start-7 rounded-sm col-span-2 row-start-5  bg-blue-700" data-size="2"></div>
-            <div class="instruction  tracking-wider text-sm whitespace-nowrap font-mono"> You can only move the head of the ship</div>
-            <div class="instruction font-mono row-start-[10] col-start-1 col-span-10 text-sm whitespace-nowrap"> Invalid drop will restore the ship position</div>
+            <div draggable="true" id="carrier"
+                class="carrier hover:shadow-sm cursor-pointer ships w-[99%]  h-[80%]  col-start-1 rounded-sm col-span-5 row-start-3  bg-green-700"
+                data-size="5"></div>
+            <div draggable="true" id="battleship"
+                class="Battleship hover:shadow-sm cursor-pointer ships w-[99%] h-[80%]  col-start-1 rounded-sm col-span-4 row-start-5 bg-green-600"
+                data-size="4"></div>
+            <div draggable="true" id="destroyer"
+                class="Destroyer hover:shadow-sm cursor-pointer ships w-[99%] h-[80%]  col-start-4  rounded-sm col-span-3 row-start-7  bg-slate-600"
+                data-size="3"></div>
+            <div draggable="true" id="patrol1"
+                class="Patrol ships hover:shadow-sm cursor-pointer w-[99%] h-[80%]  col-start-7 rounded-sm col-span-2 row-start-3 bg-blue-700"
+                data-size="2"></div>
+            <div draggable="true" id="patrol2"
+                class="Patrol hover:shadow-sm cursor-pointer  ships w-[99%] h-[80%] col-start-7 rounded-sm col-span-2 row-start-5  bg-blue-700"
+                data-size="2"></div>
+            <div class="instruction  tracking-wider text-sm whitespace-nowrap font-mono font-semibold"> You can only
+                move the head of the ship</div>
+            <div
+                class="instruction font-mono row-start-[10] col-start-1 col-span-10 text-sm   font-semibold whitespace-nowrap">
+                Invalid drop will restore the ship position</div>
 
         </div>
 
     </div>
-
-    <div class="footer flex bg-gray-200 p-2 justify-center gap-3">
+    <!-- <div class="endGame rounded-md flex flex-col w-[300px] h-[150px] items-center absolute top-[50%] left-[50%] transform translate-x-[-50%] translate-y-[-50%]  justify-evenly border border-black bg-white">
+        <div class="winner text-2xl ">You win</div>
+        <button class="restart px-3 py-1 tracking-wider bg-slate-300 rounded-sm hover:bg-gray-400 active:bg-gray-300">Restart</button>
+    </div> -->
+    <div class="footer flex bg-gray-200 p-2 justify-center gap-3 shadow-md">
         <div class="created flex gap-2">
             <img src="" alt="" class="pfp w-8 border border-black rounded-[100%]">
             <span>Crafted by <a href="https://github.com/Tribhuwan-Joshi" class="underline hover:no-underline"
