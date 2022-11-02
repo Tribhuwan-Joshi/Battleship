@@ -9,7 +9,16 @@
     <link rel="icon">
 <script defer src="bundle.js"></script></head>
 
-<body class="bg-gray-200 h-full flex  justify-center  flex-col">
+<body class="bg-gray-200 h-full flex   justify-center  flex-col">
+    <audio loop class="hidden" muted>
+        <source src="" class="introMusic" type="audio/mp3">
+    </audio>
+    <audio loop class="hidden" muted>
+        <source src="" class="fireShot" type="audio/mp3">
+    </audio>
+    <audio loop class="hidden" id="bgMusic" muted>
+        <source src="" class="bgMusic" type="audio/mp3">
+    </audio>
     <div class="header bg-gray-100 w-full flex justify-center shadow-md gap-8 p-4 items-center">
         <img src="" alt="" class="warIcon w-14">
         <h1 class="text-5xl tracking-widest font-sans flex items-center">BATTLESHIP</h1>
@@ -26,9 +35,7 @@
             <button
                 class="start-btn p-2  font-mono h-[70%]  rounded-md border border-black px-1 active:bg-gray-800  text-xl tracking-wider bg-white text-black hover:bg-gray-600 hover:cursor-pointer  hover:text-white">
                 Start</button>
-            <!-- <button
-                    class="reset-btn   font-mono h-[70%]  rounded-md border border-black px-1 active:bg-red-700  text-xl tracking-wider bg-white text-black hover:bg-red-500 hover:cursor-pointer  hover:text-white">
-                    Reset</button> -->
+           
             <div class="error-start text-red-700 underline  whitespace-nowrap p-1 bg-white invisible">Deploy all the
                 ships.</div>
         </div>
@@ -38,8 +45,12 @@
 
 
         </div>
-        <div class="player-area area col-start-4 row-start-6 font-semibold whitespace-nowrap tracking-wide -mt-6 hidden ">Your Fleet</div>
-        <div class="enemy-area area col-start-7 row-start-6 font-semibold whitespace-nowrap tracking-wide -mt-6 hidden ">Enemy Fleet</div>
+        <div
+            class="player-area area col-start-4 row-start-6 font-semibold whitespace-nowrap tracking-wide -mt-6 hidden ">
+            Your Fleet</div>
+        <div
+            class="enemy-area area col-start-7 row-start-6 font-semibold whitespace-nowrap tracking-wide -mt-6 hidden ">
+            Enemy Fleet</div>
 
 
         <div
@@ -51,7 +62,7 @@
                 class="Battleship hover:shadow-sm cursor-pointer ships w-[99%] h-[80%]  col-start-1 rounded-sm col-span-4 row-start-5 bg-green-700"
                 data-size="4"></div>
             <div draggable="true" id="destroyer"
-                class="Destroyer hover:shadow-sm cursor-pointer ships w-[99%] h-[80%]  col-start-4  rounded-sm col-span-3 row-start-7  bg-slate-600"
+                class="Destroyer hover:shadow-sm cursor-pointer ships w-[99%] h-[80%]  col-start-4  rounded-sm col-span-3 row-start-7  bg-yellow-600"
                 data-size="3"></div>
             <div draggable="true" id="patrol1"
                 class="Patrol ships hover:shadow-sm cursor-pointer w-[99%] h-[80%]  col-start-7 rounded-sm col-span-2 row-start-3 bg-blue-700"
@@ -68,10 +79,12 @@
         </div>
 
     </div>
-    <!-- <div class="endGame rounded-md flex flex-col w-[300px] h-[150px] items-center absolute top-[50%] left-[50%] transform translate-x-[-50%] translate-y-[-50%]  justify-evenly border border-black bg-white">
+    <div
+        class="endGame rounded-md  flex-col w-[300px] h-[150px] items-center absolute hidden top-[50%] left-[50%] transform translate-x-[-50%] translate-y-[-50%]  justify-evenly border border-black bg-white">
         <div class="winner text-2xl ">You win</div>
-        <button class="restart px-3 py-1 tracking-wider bg-slate-300 rounded-sm hover:bg-gray-400 active:bg-gray-300">Restart</button>
-    </div> -->
+        <button
+            class="restart px-3 py-1 tracking-wider bg-slate-300 rounded-sm hover:bg-gray-400 active:bg-gray-300">Restart</button>
+    </div>
     <div class="footer flex bg-gray-200 p-2 justify-center gap-3 shadow-md">
         <div class="created flex gap-2">
             <img src="" alt="" class="pfp w-8 border border-black rounded-[100%]">

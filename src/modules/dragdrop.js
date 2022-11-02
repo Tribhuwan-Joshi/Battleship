@@ -1,8 +1,8 @@
 import { intialBoard, game } from "../index.js";
 import { getRow, getCol, setDraggable } from "./helper";
 import Ship from "./ship.js";
-
-let shipCount = 0;
+let shipArrObject = {};
+let shipArr = [];
 const dragDrop = () => {
   const pixels = document.querySelectorAll(".pixel");
   const ships = document.querySelectorAll(".ships");
@@ -12,6 +12,7 @@ const dragDrop = () => {
   let prevsize = null;
   let prevId = null;
   let dropped = false;
+
   ships.forEach((ship) => {
     ship.addEventListener("dragstart", dragStart);
     ship.addEventListener("dragend", dragEnd);
@@ -24,7 +25,7 @@ const dragDrop = () => {
   });
 
   function dragStart(e) {
-    if (!game.gameStart()) {
+    if (game.isDragAllowed()) {
       if (e.target.parentElement.classList.contains("pixel")) {
         dropped = false;
         prevPix = true;
@@ -63,7 +64,6 @@ const dragDrop = () => {
         intialBoard.setArr(row, col + i, ship);
       }
       appendShip(prevpos, prevsize, shipElement);
-      shipCount++;
 
       dropped = true;
     }
@@ -95,12 +95,13 @@ const dragDrop = () => {
           for (let i = 0; i < shipSize; i++) {
             intialBoard.setArr(row, col + i, ship);
           }
+          if (!(id in shipArrObject)) {
+            shipArrObject[id] = ship;
+            shipArr.push(ship);
+          }
           dropped = true;
 
           appendShip(pos, shipSize, shipElement);
-
-          shipCount++;
-          console.log(shipCount);
         } else {
           shipElement.classList.remove("hidden");
           e.target.classList.remove("drag-over");
@@ -127,11 +128,13 @@ const dragDrop = () => {
 function allDeploy() {
   const shipBoard = document.querySelector(".shipBoard").children;
   for (let i of shipBoard) {
-
-    if (i.classList.contains('ships'))
-      return false;
+    if (i.classList.contains("ships")) return false;
   }
   return true;
+}
+
+function getShipArr() {
+  return shipArr;
 }
 function dragOver(e) {
   e.preventDefault();
@@ -142,4 +145,4 @@ function dragEnter(e) {
   e.target.classList.add("drag-over");
 }
 
-export { allDeploy, dragDrop, dragOver, dragEnter };
+export { allDeploy, dragDrop, dragOver, dragEnter, getShipArr };
