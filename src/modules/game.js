@@ -1,6 +1,11 @@
-import { allDeploy } from "./dragdrop";
-import { intialBoard } from "../index";
-import { setDraggable, changeUI } from "./helper";
+import { allDeploy, dragOver, dragEnter } from "./dragdrop";
+import { enemyBoard, intialBoard } from "../index";
+import {
+  createEnemyBoard,
+  hideEnemyPixels,
+  changeUI,
+  populateEnemyBoard,
+} from "./helper";
 const Game = () => {
   let gameState = false;
   const startBtn = document.querySelector(".start-btn");
@@ -8,51 +13,45 @@ const Game = () => {
   function gameStart() {
     return gameState;
   }
+  let currentTurn = "player";
+  function getTurn() {
+    return currentTurn;
+  }
+  function changeTurn() {
+    if (currentTurn == "player") {
+      currentTurn = "enemy";
+    } else {
+      currentTurn = "player";
+    }
+  }
   function startGame() {
     const errorMessage = document.querySelector(".error-start");
     if (allDeploy()) {
       changeUI();
       gameState = true;
-
-
-      const main = document.querySelector(".main");
       const shipBoard = document.querySelector(".shipBoard");
       shipBoard.classList.add("hidden");
       shipBoard.classList.remove("grid");
       startBtn.classList.add("hidden");
-      const aiBoard = document.createElement("div");
+      createEnemyBoard();
+      populateEnemyBoard();
+      hideEnemyPixels();
+      errorMessage.classList.add("invisible");
+      let gameEnd = false;
+      currentTurn = "player";
+      const playerArea = document.querySelector(".player-area");
+      const enemyArea = document.querySelector(".enemy-area");
+      playerArea.classList.add("underline");
+      // while (!gameEnd) {
+      //   if (currentTurn == "player") {
 
-      aiBoard.classList.add(
-        "aiBoard",
-        "col-start-6",
-        "row-start-3",
-        "row-span-3",
-        "col-span-3",
-        "grid",
-        "grid-cols-10",
-        "bg-red-50",
-        "grid-rows-[repeat(10,minmax(0,1fr))]"
-      );
-      let n = 0;
-      while (n != 100) {
-        const pixel = document.createElement("div");
-        pixel.classList.add(
-          "border",
-          "border-black",
-          "pixel",
-          "flex",
-          "items-center"
-        );
-        aiBoard.appendChild(pixel);
-        pixel.setAttribute("data-id", n);
-        n++;
-      }
-      main.appendChild(aiBoard);
+      //   }
+      // }
     } else {
       errorMessage.classList.remove("invisible");
     }
   }
-  return { gameStart };
+  return { gameStart, getTurn, changeTurn };
 };
 
 export default Game;

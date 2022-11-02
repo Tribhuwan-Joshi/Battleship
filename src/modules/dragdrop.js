@@ -1,10 +1,9 @@
-import { intialBoard } from "../index.js";
-import { getRow, getCol,setDraggable } from "./helper";
+import { intialBoard, game } from "../index.js";
+import { getRow, getCol, setDraggable } from "./helper";
 import Ship from "./ship.js";
-import Game from "./game.js";
+
 let shipCount = 0;
 const dragDrop = () => {
-  const game = Game();
   const pixels = document.querySelectorAll(".pixel");
   const ships = document.querySelectorAll(".ships");
   let prevpos = null;
@@ -25,8 +24,7 @@ const dragDrop = () => {
   });
 
   function dragStart(e) {
-    if (!(game.gameStart())) {
-      
+    if (!game.gameStart()) {
       if (e.target.parentElement.classList.contains("pixel")) {
         dropped = false;
         prevPix = true;
@@ -38,13 +36,10 @@ const dragDrop = () => {
         prevId = e.target.getAttribute("id");
         removeShip(prevpos, prevsize);
         removeShipArr(row, col, prevsize);
-      
       }
-      
-    
+
       e.dataTransfer.setData("text/plain", e.target.id);
       setTimeout(() => e.target.classList.add("hidden"), 0);
-    
     }
   }
   function removeShip(pos, size) {
@@ -60,38 +55,28 @@ const dragDrop = () => {
 
   function dragEnd(e) {
     if (!dropped && prevPix) {
-      
       const shipElement = document.getElementById(prevId);
-const ship = Ship(prevsize);
-const row = getRow(prevpos);
-const col = getCol(prevpos);
-for (let i = 0; i < prevsize; i++) {
-  intialBoard.setArr(row, col + i, ship);
-}
+      const ship = Ship(prevsize);
+      const row = getRow(prevpos);
+      const col = getCol(prevpos);
+      for (let i = 0; i < prevsize; i++) {
+        intialBoard.setArr(row, col + i, ship);
+      }
       appendShip(prevpos, prevsize, shipElement);
       shipCount++;
-      
-      dropped = true;
 
+      dropped = true;
     }
     e.target.classList.remove("hidden");
   }
 
-  function dragEnter(e) {
-    e.preventDefault();
-    e.target.classList.add("drag-over");
-  }
-  function dragOver(e) {
-    e.preventDefault();
-    e.target.classList.add("drag-over");
-  }
   function dragLeave(e) {
     e.preventDefault();
     e.target.classList.remove("drag-over");
   }
   function drop(e) {
     const id = e.dataTransfer.getData("text/plain");
-  
+
     const shipElement = document.getElementById(id);
     if (shipElement) {
       if (e.target.classList.contains("pixel")) {
@@ -111,22 +96,20 @@ for (let i = 0; i < prevsize; i++) {
             intialBoard.setArr(row, col + i, ship);
           }
           dropped = true;
-        
+
           appendShip(pos, shipSize, shipElement);
+
           shipCount++;
-        
+          console.log(shipCount);
         } else {
-        
           shipElement.classList.remove("hidden");
           e.target.classList.remove("drag-over");
         }
       } else {
-      
         shipElement.classList.remove("hidden");
-        
       }
     }
-    e.target.classList.remove("drag-over");  // remove the drag-over shadow
+    e.target.classList.remove("drag-over"); // remove the drag-over shadow
   }
 
   function appendShip(pos, shipSize, shipElement) {
@@ -139,12 +122,24 @@ for (let i = 0; i < prevsize; i++) {
       setDraggable(shipClone, false);
       // shipClone.setAttribute("draggable", false);
     }
-    console.log(intialBoard.getArr())
   }
- 
 };
- function allDeploy() {
-   return shipCount == 5;
- }
+function allDeploy() {
+  const shipBoard = document.querySelector(".shipBoard").children;
+  for (let i of shipBoard) {
 
-export { allDeploy , dragDrop};
+    if (i.classList.contains('ships'))
+      return false;
+  }
+  return true;
+}
+function dragOver(e) {
+  e.preventDefault();
+  e.target.classList.add("drag-over");
+}
+function dragEnter(e) {
+  e.preventDefault();
+  e.target.classList.add("drag-over");
+}
+
+export { allDeploy, dragDrop, dragOver, dragEnter };

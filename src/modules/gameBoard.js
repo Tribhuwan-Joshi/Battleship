@@ -16,7 +16,7 @@ const GameBoard = () => {
   }
     function isClearPath(size, row, col) {
       
-    for (let i = 0; i < size; i++) {
+    for (let i = -1; i < size+1; i++) {
       if (getArr()[row][col + i]) {
         return false;
       }
