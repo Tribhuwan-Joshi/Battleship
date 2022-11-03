@@ -1,4 +1,4 @@
-import { dragEnter, dragOver, getShipArr } from "./dragdrop";
+import { dragDrop, dragEnter, dragOver, getShipArr } from "./dragdrop";
 import { game, enemyBoard, intialBoard } from "../index";
 import Ship from "../modules/ship";
 
@@ -7,14 +7,12 @@ function getRow(n) {
   return Math.floor(n / 10);
 }
 
-
 // const pixels = document.querySelectorAll(".gameBoard .pixel");
 
-function destroyPlayerShip() {
+function destroyPlayerShip(pos) {
   if (game.gameRunning()) {
     const playerShips = getShipArr();
-    let pos = Math.floor(Math.random() * 100);
-    console.log(pos);
+
     let pixel = document.querySelector(`.gameBoard [data-id='${pos}']`);
     let row = getRow(pos);
     let col = getCol(pos);
@@ -26,38 +24,44 @@ function destroyPlayerShip() {
         pixel.textContent = "";
         pixel.classList.add("bg-red-500");
         checkAllSink("AI", playerShips);
-        aiMove();
-      }
-      else {
+        let nextPix = document.querySelector(
+          `.gameBoard [data-id='${pos + 1}']`
+        );
+        if (nextPix && !nextPix.getAttribute("data-visited")) {
+          aiMove(pos + 1);
+        } else {
+          aiMove();
+        }
+      } else {
         pixel.classList.add("bg-gray-500");
         game.changePlayer();
       }
-      
     } else {
-   
-      destroyPlayerShip();
+      destroyPlayerShip((pos = Math.floor(Math.random() * 100)));
     }
   }
 }
-function checkAllSink(caller, shipArr) {
-    const main = document.querySelector(".main");
-  if (shipArr.every((s) => s.isSunk())) {
-        console.log("all Sink");
-        game.endGame();
-        game.declareWinner(caller);
-        main.classList.add("blur");
-      }
-    
-  
-}
-function aiMove() {
-  const wait = [900, 1000, 1200, 800,1400];
+
+function aiMove(pos = Math.floor(Math.random() * 100)) {
+  console.log("now pos is ", pos);
+
+  const wait = [1500, 1000, 1200, 800, 1400];
   let i = Math.floor(Math.random() * 3);
 
   setTimeout(() => {
-    destroyPlayerShip();
+    destroyPlayerShip(pos);
   }, wait[i]);
 }
+function checkAllSink(caller, shipArr) {
+  const main = document.querySelector(".main");
+  if (shipArr.every((s) => s.isSunk())) {
+    console.log("all Sink");
+    game.endGame();
+    game.declareWinner(caller);
+    main.classList.add("blur");
+  }
+}
+
 function getCol(n) {
   return n % 10;
 }
@@ -90,20 +94,16 @@ function changeUI() {
     "items-center",
     "whitespace-nowrap",
     "tracking-wide",
-    "-ml-4",
-    
+    "-ml-4"
   );
   const tip = document.createElement("div");
   const turn = document.createElement("div");
-  tip.textContent =
-    "🫵 Destroy enemy fleet to win the match 💪 ";
-  tip.classList.add("text-center")
- 
-  turn.classList.add("turn", "text-center","font-semibold");
-  turn.textContent = "Your turn";
-  tipContainer.append(tip,turn);
-  
+  tip.textContent = "🫵 Destroy enemy fleet to win the match 💪 ";
+  tip.classList.add("text-center");
 
+  turn.classList.add("turn", "text-center", "font-semibold");
+  turn.textContent = "Your turn";
+  tipContainer.append(tip, turn);
 
   main.appendChild(tipContainer);
 }
@@ -138,7 +138,6 @@ const patrol2 = Ship(2);
 const shipArr = [carrier, batttleship, destroyer, patrol1, patrol2];
 
 function disclosePixel(e) {
-
   let pixel = e.target;
   if (
     game.getCurrentPlayer() == "p1" &&
@@ -149,8 +148,6 @@ function disclosePixel(e) {
 
     pixel.classList.remove("bg-gray-500");
     pixel.setAttribute("data-visited", true);
-    // console.log(pixel);
-    // pixel.style.backgroundColor = "red";
 
     let row = getRow(pos);
     let col = getCol(pos);
@@ -159,9 +156,7 @@ function disclosePixel(e) {
       pixel.classList.add("bg-red-500");
       ship.hit();
       checkAllSink("You", shipArr);
-     
-    }
-    else {
+    } else {
       game.changePlayer();
     }
   }
@@ -185,7 +180,6 @@ function generatePixels(element) {
 }
 
 function populateEnemyBoard() {
-  console.log("called");
   let enemyShipCount = 0;
   while (enemyShipCount < 5) {
     let pos = Math.floor(Math.random() * 100);
@@ -200,15 +194,98 @@ function populateEnemyBoard() {
     }
   }
 }
-function hideEnemyPixels() {}
+function resetUI() {
+  const main = document.querySelector(".main");
+  const endGameUI = document.querySelector(".endGame");
+  // game.setDragAllowed();
+  endGameUI.classList.add("hidden");
+  main.classList.remove("blur");
+  main.textContent = "";
+  main.innerHTML = `
+  <div class="container col-start-5 row-start-1 col-span-3 flex items-center ">
+            <div class="heading text-3xl whitespace-nowrap tracking-wide font-sans -ml-6 ">Deploy your ships !</div>
+        </div>
+
+        <div class="btn-container col-start-5 flex-row  col-span-2 flex justify-center items-center gap-4">
+            <button
+                class="start-btn p-2  font-mono h-[70%]  rounded-md border border-black px-1 active:bg-gray-800  text-xl tracking-wider bg-white text-black hover:bg-gray-600 hover:cursor-pointer  hover:text-white">
+                Start</button>
+           
+            <div class="error-start text-red-700 underline  whitespace-nowrap p-1 bg-white invisible">Deploy all the
+                ships.</div>
+        </div>
+
+        <div
+            class="gameBoard col-span-3 row-start-3 col-start-3 row-span-3 bg-red-50 grid  grid-cols-10 grid-rows-[repeat(10,minmax(0,1fr))]">
+
+
+        </div>
+        <div
+            class="player-area area col-start-4 row-start-6 font-semibold whitespace-nowrap tracking-wide -mt-6 hidden ">
+            Your Fleet</div>
+        <div
+            class="enemy-area area col-start-7 row-start-6 font-semibold whitespace-nowrap tracking-wide -mt-6 hidden ">
+            Enemy Fleet</div>
+
+  `;
+  const gameBoard = document.querySelector(".gameBoard");
+  generatePixels(gameBoard);
+  
+  const pixels = document.querySelectorAll(".gameBoard .pixel");
+  pixels.forEach((p) => p.removeEventListener("dragover", dragOver));
+  pixels.forEach((p) => p.removeEventListener("dragenter", dragEnter));
+  const ships = document.querySelectorAll(".gameBoard .ships");
+  ships.forEach((s) => setDraggable(s, true));
+  intialBoard.resetBoard();
+  enemyBoard.resetBoard();
+  dragDrop();
+  
+}
+function createShipBoard() {
+  const main = document.querySelector(".main");
+  const shipBoard = document.createElement("div");
+  shipBoard.classList.add(
+    "shipBoard",
+    "col-start-6",
+    "items-center",
+    "row-start-3",
+    "row-span-3",
+    "col-span-3",
+    "grid",
+    "grid-cols-10",
+    "grid-rows-[repeat(10,minmax(0,1fr))]"
+  );
+  shipBoard.innerHTML = `<div draggable="true" id="carrier"
+                class="carrier hover:shadow-sm cursor-pointer ships w-[99%]  h-[80%]  col-start-1 rounded-sm col-span-5 row-start-3  bg-green-700"
+                data-size="5"></div>
+            <div draggable="true" id="battleship"
+                class="Battleship hover:shadow-sm cursor-pointer ships w-[99%] h-[80%]  col-start-1 rounded-sm col-span-4 row-start-5 bg-green-700"
+                data-size="4"></div>
+            <div draggable="true" id="destroyer"
+                class="Destroyer hover:shadow-sm cursor-pointer ships w-[99%] h-[80%]  col-start-4  rounded-sm col-span-3 row-start-7  bg-yellow-600"
+                data-size="3"></div>
+            <div draggable="true" id="patrol1"
+                class="Patrol ships hover:shadow-sm cursor-pointer w-[99%] h-[80%]  col-start-7 rounded-sm col-span-2 row-start-3 bg-blue-700"
+                data-size="2"></div>
+            <div draggable="true" id="patrol2"
+                class="Patrol hover:shadow-sm cursor-pointer  ships w-[99%] h-[80%] col-start-7 rounded-sm col-span-2 row-start-5  bg-blue-700"
+                data-size="2"></div>
+            <div class="instruction  tracking-wider text-sm whitespace-nowrap font-mono font-semibold"> You can only
+                move the head of the ship</div>
+            <div
+                class="instruction font-mono row-start-[10] col-start-1 col-span-10 text-sm   font-semibold whitespace-nowrap">
+                Invalid drop will restore the ship position</div>`;
+  main.appendChild(shipBoard);
+}
 
 export {
+  resetUI,
   getRow,
   getCol,
   setDraggable,
   changeUI,
   populateEnemyBoard,
-  hideEnemyPixels,
+  createShipBoard,
   createEnemyBoard,
   generatePixels,
   aiMove,

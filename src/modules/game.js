@@ -2,11 +2,13 @@ import { allDeploy, dragOver, dragEnter } from "./dragdrop";
 import { enemyBoard, game, intialBoard } from "../index";
 import {
   createEnemyBoard,
-  hideEnemyPixels,
   changeUI,
+  createShipBoard,
   populateEnemyBoard,
-  aiMove
+  aiMove,
+  resetUI
 } from "./helper";
+import GameBoard from "./gameBoard";
 const Game = () => {
   let gameState = false;
   let dragAllowed = true;
@@ -17,9 +19,11 @@ const Game = () => {
   const enemyArea = document.querySelector(".enemy-area");
 
   startBtn.addEventListener("click", startGame);
+  resetBtn.addEventListener("click", resetGame);
   function gameRunning() {
     return gameState;
   }
+  
   function isDragAllowed() {
     return dragAllowed;
   }
@@ -28,6 +32,13 @@ const Game = () => {
   }
   function getCurrentPlayer() {
     return currentPlayer;
+  }
+  function resetGame() {
+    resetUI();
+    createShipBoard();
+    enemyBoard.resetBoard();
+    intialBoard.resetBoard();
+
   }
   function changePlayer() {
     const turn = document.querySelector(".turn");
@@ -52,7 +63,9 @@ const Game = () => {
     winnerContainer.textContent = `${winner} Win`;
   }
 
-
+  function setDragAllowed() {
+    dragAllowed = true;
+}
 
   function startGame() {
     const errorMessage = document.querySelector(".error-start");
@@ -70,7 +83,7 @@ const Game = () => {
       startBtn.classList.add("hidden");
       createEnemyBoard();
       populateEnemyBoard();
-      hideEnemyPixels();
+
       errorMessage.classList.add("invisible");
 
       playerArea.classList.add("underline");
@@ -84,7 +97,7 @@ const Game = () => {
     } else {
       errorMessage.classList.remove("invisible");
     }
-    console.log("run")
+   
   }
   return {
     gameRunning,
@@ -92,6 +105,7 @@ const Game = () => {
     changePlayer,
     endGame,
     isDragAllowed,
+    setDragAllowed,
     declareWinner,
   };
 };

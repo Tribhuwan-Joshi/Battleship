@@ -26,6 +26,9 @@ const GameBoard = () => {
   function setArr(row, col, node) {
     arr[row][col] = node;
   }
+  function resetBoard() {
+    arr = new Array(10).fill().map(() => new Array(10).fill(0));
+  }
 
   function getArr() {
     return arr;
@@ -39,7 +42,7 @@ const GameBoard = () => {
       arr[x][y] = -1;
     }
   }
-  return { canDeploy, receiveAttack, getArr,setArr };
+  return { canDeploy, receiveAttack, getArr,setArr,resetBoard };
 };
 
 
