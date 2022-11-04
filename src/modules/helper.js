@@ -1,6 +1,7 @@
-import { dragDrop, dragEnter, dragOver, getShipArr } from "./dragdrop";
-import { game, enemyBoard, intialBoard } from "../index";
+import { game, enemyBoard, intialBoard,dragObj } from "../index";
+
 import Ship from "../modules/ship";
+
 
 // All of the independent helper functions
 function getRow(n) {
@@ -11,7 +12,7 @@ function getRow(n) {
 
 function destroyPlayerShip(pos) {
   if (game.gameRunning()) {
-    const playerShips = getShipArr();
+    const playerShips = dragObj.getShipArr();
 
     let pixel = document.querySelector(`.gameBoard [data-id='${pos}']`);
     let row = getRow(pos);
@@ -43,7 +44,7 @@ function destroyPlayerShip(pos) {
 }
 
 function aiMove(pos = Math.floor(Math.random() * 100)) {
-  console.log("now pos is ", pos);
+  
 
   const wait = [1500, 1000, 1200, 800, 1400];
   let i = Math.floor(Math.random() * 3);
@@ -55,7 +56,7 @@ function aiMove(pos = Math.floor(Math.random() * 100)) {
 function checkAllSink(caller, shipArr) {
   const main = document.querySelector(".main");
   if (shipArr.every((s) => s.isSunk())) {
-    console.log("all Sink");
+    
     game.endGame();
     game.declareWinner(caller);
     main.classList.add("blur");
@@ -70,8 +71,8 @@ function setDraggable(element, state) {
 }
 function changeUI() {
   const pixels = document.querySelectorAll(".gameBoard .pixel");
-  pixels.forEach((p) => p.removeEventListener("dragover", dragOver));
-  pixels.forEach((p) => p.removeEventListener("dragenter", dragEnter));
+  pixels.forEach((p) => p.removeEventListener("dragover", dragObj.dragOver));
+  pixels.forEach((p) => p.removeEventListener("dragenter", dragObj.dragEnter));
 
   const ships = document.querySelectorAll(".gameBoard .ships");
   ships.forEach((s) => setDraggable(s, false));
@@ -130,12 +131,21 @@ function createEnemyBoard() {
     p.addEventListener("click", (e) => disclosePixel(e));
   });
 }
-const carrier = Ship(5);
-const batttleship = Ship(4);
-const destroyer = Ship(3);
-const patrol1 = Ship(2);
-const patrol2 = Ship(2);
-const shipArr = [carrier, batttleship, destroyer, patrol1, patrol2];
+let carrier = Ship(5);
+let batttleship = Ship(4);
+let destroyer = Ship(3);
+let patrol1 = Ship(2);
+let patrol2 = Ship(2);
+let shipArr = [carrier, batttleship, destroyer, patrol1, patrol2];
+
+function reCreateShips() {
+  carrier = Ship(5);
+  batttleship = Ship(4);
+  destroyer = Ship(3);
+  patrol1 = Ship(2);
+  patrol2 = Ship(2);
+  shipArr = [carrier, batttleship, destroyer, patrol1, patrol2];
+}
 
 function disclosePixel(e) {
   let pixel = e.target;
@@ -195,6 +205,7 @@ function populateEnemyBoard() {
   }
 }
 function resetUI() {
+
   const main = document.querySelector(".main");
   const endGameUI = document.querySelector(".endGame");
   // game.setDragAllowed();
@@ -229,17 +240,19 @@ function resetUI() {
 
   `;
   const gameBoard = document.querySelector(".gameBoard");
-  generatePixels(gameBoard);
   
-  const pixels = document.querySelectorAll(".gameBoard .pixel");
-  pixels.forEach((p) => p.removeEventListener("dragover", dragOver));
-  pixels.forEach((p) => p.removeEventListener("dragenter", dragEnter));
-  const ships = document.querySelectorAll(".gameBoard .ships");
-  ships.forEach((s) => setDraggable(s, true));
   intialBoard.resetBoard();
   enemyBoard.resetBoard();
-  dragDrop();
+  // refresh drag and drop
+  createShipBoard();
   
+
+  reCreateShips();
+  generatePixels(gameBoard);
+    dragObj.resetShipObject();
+  dragObj.addEventListeners();
+  game.addEventListeners();
+ 
 }
 function createShipBoard() {
   const main = document.querySelector(".main");
@@ -289,4 +302,5 @@ export {
   createEnemyBoard,
   generatePixels,
   aiMove,
+  reCreateShips
 };

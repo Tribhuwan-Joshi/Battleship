@@ -1,29 +1,39 @@
-import { allDeploy, dragOver, dragEnter } from "./dragdrop";
-import { enemyBoard, game, intialBoard } from "../index";
+import { enemyBoard, intialBoard,dragObj } from "../index";
 import {
   createEnemyBoard,
   changeUI,
-  createShipBoard,
   populateEnemyBoard,
   aiMove,
-  resetUI
+  resetUI,
 } from "./helper";
-import GameBoard from "./gameBoard";
+// import GameBoard from "./gameBoard";
 const Game = () => {
   let gameState = false;
   let dragAllowed = true;
   let currentPlayer;
-  const startBtn = document.querySelector(".start-btn");
-  const resetBtn = document.querySelector("button.restart");
-  const playerArea = document.querySelector(".player-area");
-  const enemyArea = document.querySelector(".enemy-area");
+  let startBtn = document.querySelector(".start-btn");
+  let resetBtn = document.querySelector("button.restart");
+  let playerArea = document.querySelector(".player-area");
+  let enemyArea = document.querySelector(".enemy-area");
+   startBtn.addEventListener("click", startGame);
+   resetBtn.addEventListener("click", resetGame);
 
   startBtn.addEventListener("click", startGame);
   resetBtn.addEventListener("click", resetGame);
+  function addEventListeners() {
+     startBtn = document.querySelector(".start-btn");
+     resetBtn = document.querySelector("button.restart");
+     playerArea = document.querySelector(".player-area");
+     enemyArea = document.querySelector(".enemy-area");
+
+     startBtn.addEventListener("click", startGame);
+     resetBtn.addEventListener("click", resetGame);
+  }
+
   function gameRunning() {
     return gameState;
   }
-  
+
   function isDragAllowed() {
     return dragAllowed;
   }
@@ -34,11 +44,13 @@ const Game = () => {
     return currentPlayer;
   }
   function resetGame() {
-    resetUI();
-    createShipBoard();
     enemyBoard.resetBoard();
     intialBoard.resetBoard();
-
+    gameState = false;
+    dragAllowed = true;
+    currentPlayer = "";
+        resetUI();
+    
   }
   function changePlayer() {
     const turn = document.querySelector(".turn");
@@ -65,15 +77,16 @@ const Game = () => {
 
   function setDragAllowed() {
     dragAllowed = true;
-}
+  }
 
   function startGame() {
+    
     const errorMessage = document.querySelector(".error-start");
 
-    if (allDeploy()) {
+    if (dragObj.allDeploy()) {
       currentPlayer = "p1";
       playerArea.classList.add("underline");
-      console.log(enemyBoard.getArr());
+      
       dragAllowed = false;
       changeUI();
       gameState = true;
@@ -87,17 +100,10 @@ const Game = () => {
       errorMessage.classList.add("invisible");
 
       playerArea.classList.add("underline");
-      // while (gameRunning()) {
-      //   let currentPlayer = getCurrentPlayer();
-      //   if (currentPlayer == "a1") {
-      //     aiMove();
-      //     changePlayer();
-      //   }
-      // }
+
     } else {
       errorMessage.classList.remove("invisible");
     }
-   
   }
   return {
     gameRunning,
@@ -107,6 +113,7 @@ const Game = () => {
     isDragAllowed,
     setDragAllowed,
     declareWinner,
+    addEventListeners
   };
 };
 

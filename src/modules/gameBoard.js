@@ -1,6 +1,3 @@
-import Ship from "./ship";
-// const Ship = require("./ship.js");
-
 const GameBoard = () => {
   let arr = new Array(10).fill().map(() => new Array(10).fill(0));
   function canDeploy(size, row, col) {
@@ -47,5 +44,4 @@ const GameBoard = () => {
 
 
 
-// module.exports = GameBoard;
 export default GameBoard;

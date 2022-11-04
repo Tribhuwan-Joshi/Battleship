@@ -26,7 +26,9 @@ function init() {
 init();
 let intialBoard = GameBoard();
 let enemyBoard = GameBoard();
-dragDrop();
+let dragObj = dragDrop();
+dragObj.addEventListeners();
 let game = Game();
+game.addEventListeners();
 
-export { intialBoard, enemyBoard, game };
+export { intialBoard, enemyBoard, game,dragObj };

@@ -1,28 +1,42 @@
 import { intialBoard, game } from "../index.js";
 import { getRow, getCol, setDraggable } from "./helper";
 import Ship from "./ship.js";
-let shipArrObject = {};
-let shipArr = [];
-const dragDrop = () => {
-  const pixels = document.querySelectorAll(".pixel");
-  const ships = document.querySelectorAll(".ships");
-  let prevpos = null;
 
+const dragDrop = () => {
+  let pixels = document.querySelectorAll(".pixel");
+  let ships = document.querySelectorAll(".ships");
+  let prevpos = null;
   let prevPix = false;
   let prevsize = null;
   let prevId = null;
   let dropped = false;
-
-  ships.forEach((ship) => {
-    ship.addEventListener("dragstart", dragStart);
-    ship.addEventListener("dragend", dragEnd);
-  });
-  pixels.forEach((pixel) => {
-    pixel.addEventListener("dragenter", dragEnter);
-    pixel.addEventListener("dragover", dragOver);
-    pixel.addEventListener("dragleave", dragLeave);
-    pixel.addEventListener("drop", drop);
-  });
+  let shipArrObject = {};
+  let shipArr = [];
+  function resetShipObject() {
+    shipArr = [];
+    shipArrObject = {};
+    prevpos = null;
+    prevPix = false;
+    prevsize = null;
+    prevId = null;
+    dropped = false;
+    shipArrObject = {};
+    shipArr = [];
+    pixels = document.querySelectorAll(".pixel");
+    ships = document.querySelectorAll(".ships");
+  }
+  function addEventListeners() {
+    ships.forEach((ship) => {
+      ship.addEventListener("dragstart", dragStart);
+      ship.addEventListener("dragend", dragEnd);
+    });
+    pixels.forEach((pixel) => {
+      pixel.addEventListener("dragenter", dragEnter);
+      pixel.addEventListener("dragover", dragOver);
+      pixel.addEventListener("dragleave", dragLeave);
+      pixel.addEventListener("drop", drop);
+    });
+  }
 
   function dragStart(e) {
     if (game.isDragAllowed()) {
@@ -124,25 +138,32 @@ const dragDrop = () => {
       // shipClone.setAttribute("draggable", false);
     }
   }
-};
-function allDeploy() {
-  const shipBoard = document.querySelector(".shipBoard").children;
-  for (let i of shipBoard) {
-    if (i.classList.contains("ships")) return false;
+  function allDeploy() {
+    const shipBoard = document.querySelector(".shipBoard").children;
+    for (let i of shipBoard) {
+      if (i.classList.contains("ships")) return false;
+    }
+    return true;
   }
-  return true;
-}
+  function getShipArr() {
+    return shipArr;
+  }
+  function dragOver(e) {
+    e.preventDefault();
+    e.target.classList.add("drag-over");
+  }
+  function dragEnter(e) {
+    e.preventDefault();
+    e.target.classList.add("drag-over");
+  }
+  return {
+    resetShipObject,
+    allDeploy,
+    dragEnter,
+    dragOver,
+    getShipArr,
+    addEventListeners,
+  };
+};
 
-function getShipArr() {
-  return shipArr;
-}
-function dragOver(e) {
-  e.preventDefault();
-  e.target.classList.add("drag-over");
-}
-function dragEnter(e) {
-  e.preventDefault();
-  e.target.classList.add("drag-over");
-}
-
-export { allDeploy, dragDrop, dragOver, dragEnter, getShipArr };
+export { dragDrop };
